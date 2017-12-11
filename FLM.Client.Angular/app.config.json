@@ -1,0 +1,35 @@
+﻿{
+	"version": "1.0.0",
+	"env": {
+		"dev": {
+			"EnvConfig": {
+				"showDebugInfo": true,
+				"api": "http://localhost:5000/",
+				"auth":  {
+					"server":  "https://localhost:44335/",
+					"clientID" : "flm.client.angular",
+					"requestedScopes" :  [
+						"openid",
+						"flm.api"
+					]
+				},
+				"defaultItemsPerPage": 10
+			}
+		},
+		"production": {
+			"EnvConfig": {
+				"showDebugInfo": false,
+				"api": "http://localhost:5000/",
+				"auth":  {
+					"server":  "https://localhost:44335/",
+					"clientID" : "flm.client.angular",
+					"requestedScopes" :  [
+						"openid",
+						"flm.api"
+					]
+				},
+				"defaultItemsPerPage": 10
+			}
+		}
+	}
+}

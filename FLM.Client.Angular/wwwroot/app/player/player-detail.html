@@ -1,0 +1,43 @@
+<div class="panel panel-default">
+
+	<div class="panel-body">
+
+		<error-view></error-view>
+
+		<form name="itemForm" class="form-horizontal" novalidate>
+			<fieldset>
+
+				<legend>{{ctrl.getDisplayName()}}</legend>
+
+				<!-- Item Info -->
+
+				<div>
+					<span><b>ID:</b> {{ctrl.item.id}}</span>
+					<br />
+					<span><b>First Name:</b> {{ctrl.item.firstName}}</span>
+					<br />
+					<span><b>Last Name:</b> {{ctrl.item.lastName}}</span>
+					<br />
+					<span><b>DOB:</b> {{ctrl.item.dateOfBirth | date:'mediumDate'}}</span>
+					<br />
+					<span><b>Team:</b>
+						<a ng-if="ctrl.item.teamId" ui-sref="team.detail({itemID:{{ctrl.item.teamId}}})">{{ctrl.item.teamFullName}}</a>
+						<span ng-if="!ctrl.item.teamId">N/A</span>
+					</span>
+				</div>
+
+				<!-- Audit Info -->
+
+				<div ng-show="user.isAdmin">
+					<hr />
+					<item-audit-view item="ctrl.item"></item-audit-view>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+
+	<div class="panel-footer" ng-show="user.isAdmin">
+		<button class="btn btn-primary" ui-sref="player.edit({itemID:{{ctrl.item.id}}})">Edit</button>
+		<button class="btn btn-danger" ng-click="ctrl.deleteItem()">Delete</button>
+	</div>
+</div>

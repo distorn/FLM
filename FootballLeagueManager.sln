@@ -1,0 +1,85 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.16
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FLM.Model", "FLM.Model\FLM.Model.csproj", "{AFBD38BB-995B-4640-85A1-8A771980211D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FLM.DAL", "FLM.DAL\FLM.DAL.csproj", "{843002CC-7055-4E7D-A827-4606BC327AF8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B126C089-B141-412D-827E-A3B97691AD8C} = {B126C089-B141-412D-827E-A3B97691AD8C}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FLM.DAL.EFCore", "FLM.DAL.EFCore\FLM.DAL.EFCore.csproj", "{B633561E-0855-4731-9599-60063876163B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FLM.API", "FLM.API\FLM.API.csproj", "{C920D666-582E-4767-BC4D-AE43794DEE5C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{51CB5AF2-3CBD-46AC-B894-39309B614412} = {51CB5AF2-3CBD-46AC-B894-39309B614412}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FLM.Client.Angular", "FLM.Client.Angular\FLM.Client.Angular.csproj", "{6AB7A5BD-4453-4ED5-8450-BC79F4E997CE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FLM.BL", "FLM.BL\FLM.BL.csproj", "{ECD0655D-54D0-4649-853E-D80FB634944F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{843002CC-7055-4E7D-A827-4606BC327AF8} = {843002CC-7055-4E7D-A827-4606BC327AF8}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FLM.Auth.IdentityServer", "FLM.Auth.IdentityServer\FLM.Auth.IdentityServer.csproj", "{3C1CF126-BF15-4145-B082-0CD310B23DFC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FLM.DAL.Mocks", "FLM.DAL.Mocks\FLM.DAL.Mocks.csproj", "{51CB5AF2-3CBD-46AC-B894-39309B614412}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B633561E-0855-4731-9599-60063876163B} = {B633561E-0855-4731-9599-60063876163B}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FLM.Model.User", "FLM.Model.User\FLM.Model.User.csproj", "{B126C089-B141-412D-827E-A3B97691AD8C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AFBD38BB-995B-4640-85A1-8A771980211D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFBD38BB-995B-4640-85A1-8A771980211D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFBD38BB-995B-4640-85A1-8A771980211D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFBD38BB-995B-4640-85A1-8A771980211D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{843002CC-7055-4E7D-A827-4606BC327AF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{843002CC-7055-4E7D-A827-4606BC327AF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{843002CC-7055-4E7D-A827-4606BC327AF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{843002CC-7055-4E7D-A827-4606BC327AF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B633561E-0855-4731-9599-60063876163B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B633561E-0855-4731-9599-60063876163B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B633561E-0855-4731-9599-60063876163B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B633561E-0855-4731-9599-60063876163B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C920D666-582E-4767-BC4D-AE43794DEE5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C920D666-582E-4767-BC4D-AE43794DEE5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C920D666-582E-4767-BC4D-AE43794DEE5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C920D666-582E-4767-BC4D-AE43794DEE5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AB7A5BD-4453-4ED5-8450-BC79F4E997CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AB7A5BD-4453-4ED5-8450-BC79F4E997CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AB7A5BD-4453-4ED5-8450-BC79F4E997CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AB7A5BD-4453-4ED5-8450-BC79F4E997CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECD0655D-54D0-4649-853E-D80FB634944F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECD0655D-54D0-4649-853E-D80FB634944F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECD0655D-54D0-4649-853E-D80FB634944F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECD0655D-54D0-4649-853E-D80FB634944F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C1CF126-BF15-4145-B082-0CD310B23DFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C1CF126-BF15-4145-B082-0CD310B23DFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C1CF126-BF15-4145-B082-0CD310B23DFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C1CF126-BF15-4145-B082-0CD310B23DFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51CB5AF2-3CBD-46AC-B894-39309B614412}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51CB5AF2-3CBD-46AC-B894-39309B614412}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51CB5AF2-3CBD-46AC-B894-39309B614412}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51CB5AF2-3CBD-46AC-B894-39309B614412}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B126C089-B141-412D-827E-A3B97691AD8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B126C089-B141-412D-827E-A3B97691AD8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B126C089-B141-412D-827E-A3B97691AD8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B126C089-B141-412D-827E-A3B97691AD8C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F2F43D51-88C6-4CFA-85F0-DF604403E82C}
+	EndGlobalSection
+EndGlobal

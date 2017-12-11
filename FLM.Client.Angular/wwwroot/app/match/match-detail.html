@@ -1,0 +1,71 @@
+<div class="panel panel-default">
+
+	<div class="panel-body">
+
+		<error-view></error-view>
+
+		<form name="itemForm" class="form-horizontal" novalidate>
+			<fieldset>
+
+				<!-- Heading -->
+
+				<div class="row">
+					<h4 class="col-sm-5 text-right">
+						<a ui-sref="team.detail({itemID:{{ctrl.item.team1Id}}})">{{ctrl.item.team1FullName}}</a>
+					</h4>
+					<h4 class="col-sm-2 text-center" ng-if="ctrl.item.team1Score == undefined">- : -</h4>
+					<h4 class="col-sm-2 text-center" ng-if="ctrl.item.team1Score != undefined">{{ctrl.item.team1Score}} : {{ctrl.item.team2Score}}</h4>
+					<h4 class="col-sm-5 text-left">
+						<a ui-sref="team.detail({itemID:{{ctrl.item.team2Id}}})">{{ctrl.item.team2FullName}}</a>
+					</h4>
+				</div>
+
+				<hr />
+
+				<!-- Match Info -->
+
+				<div class="row text-center small">
+					<div><a ui-sref="league.detail({itemID:{{ctrl.item.leagueId}}})">{{ctrl.item.leagueFullName}}</a></div>
+					<div>{{ctrl.item.date | date:'mediumDate'}}</div>
+					<div>Round {{ctrl.item.round}}</div>
+				</div>
+
+				<!-- Scores -->
+
+				<hr />
+
+				<div class="row">
+
+					<div class="col-xs-5 text-right">
+						<div ng-repeat="score in ctrl.getTeamScores(ctrl.item.team1Id)">
+							<span><a ui-sref="player.detail({itemID:{{score.playerId}}})">{{score.playerFullName}}</a> {{score.minute}}'</span>
+							<span ng-if="score.isOG"><b>(OG)</b></span>
+							<span ng-if="score.isPenalty"><b>(P)</b></span>
+						</div>
+					</div>
+					<div class="col-xs-2">
+					</div>
+					<div class="col-xs-5 text-left">
+						<div ng-repeat="score in ctrl.getTeamScores(ctrl.item.team2Id)" style="padding-bottom:2px;">
+							<span><a ui-sref="player.detail({itemID:{{score.playerId}}})">{{score.playerFullName}}</a> {{score.minute}}'</span>
+							<span ng-if="score.isOG"><b>(OG)</b></span>
+							<span ng-if="score.isPenalty"><b>(P)</b></span>
+						</div>
+					</div>
+				</div>
+
+				<!-- Audit Info -->
+
+				<div ng-show="user.isAdmin">
+					<hr />
+					<item-audit-view item="ctrl.item"></item-audit-view>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+
+	<div class="panel-footer" ng-show="user.isAdmin">
+		<button class="btn btn-primary" ui-sref="match.edit({itemID:{{ctrl.item.id}}})">Edit</button>
+		<button class="btn btn-danger" ng-click="ctrl.deleteItem()">Delete</button>
+	</div>
+</div>

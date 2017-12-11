@@ -1,0 +1,62 @@
+﻿<div class="panel panel-default">
+
+	<div class="panel-heading">
+		<h5><a ui-sref="league.edit({itemID:{{ctrl.item.id}}})">{{ctrl.getDisplayName()}}</a>: Manage Teams</h5>
+	</div>
+	<div class="panel-body">
+
+		<error-view></error-view>
+
+		<div class="container-fluid">
+
+			<form name="addTeamForm" class="form-inline row">
+
+				<!-- Search Field -->
+
+				<div class="form-group col-lg-11 col-md-10 col-sm-10 col-xs-12"
+					 ng-class="{ 'has-error' : addTeamForm.teamSearchInput.$invalid && addTeamForm.teamSearchInput.$touched}">
+					<ui-select id="teamSearchInput" name="teamSearchInput" theme="bootstrap"
+							   ng-model="ctrl.teamSearchItem" required>
+						<ui-select-match placeholder="Search Team" allow-clear="true">{{$select.selected.fullName}}</ui-select-match>
+						<ui-select-choices repeat="item in ctrl.teamSearchResults"
+										   refresh="ctrl.refreshTeamSearch($select.search)"
+										   minimum-input-length="1" refresh-delay="0">
+							<div ng-bind-html="item.fullName | highlight: $select.search"></div>
+						</ui-select-choices>
+					</ui-select>
+				</div>
+
+				<!-- Add Button -->
+
+				<div class="form-group col-lg-1 col-md-2 col-sm-2 col-xs-12">
+					<button type="submit" class="btn btn-primary" style="width:100%;"
+							ng-click="ctrl.assignTeam()" ng-disabled="addTeamForm.$invalid">
+						Add
+					</button>
+				</div>
+			</form>
+
+			<hr />
+			<table class="table table-striped table-condensed">
+				<tbody>
+					<tr ng-repeat="item in ctrl.leagueTeams">
+
+						<td class="col-lg-11">
+							<a ui-sref="team.detail({itemID:{{item.teamId}}})">{{item.fullName}}</a>
+						</td>
+
+						<td class="col-lg-1 text-right">
+							<button type="button" class="btn btn-default btn-xs" aria-label="Delete"
+									ng-click="ctrl.removeTeam(item)">
+								<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<no-content-view ng-show="ctrl.noContentFound"></no-content-view>
+
+		</div>
+	</div>
+</div>

@@ -1,0 +1,133 @@
+﻿<div class="panel panel-default">
+
+	<div class="panel-heading">
+		<div class="row">
+			<div class="col-sm-8">
+				<h5><a ui-sref="league.edit({itemID:{{ctrl.item.id}}})">{{ctrl.getDisplayName()}}</a><em> {{ctrl.item.startDate | date:'mediumDate'}} - {{ctrl.item.endDate | date:'mediumDate'}}</em></h5>
+			</div>
+			<div class="col-sm-4 text-right">
+				<div class="dropdown">
+					<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+						Round {{ctrl.roundNum}}
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu dropdown-menu-right scrollable-menu">
+						<li ng-repeat="n in [].constructor(ctrl.item.roundsCount) track by $index">
+							<a ui-sref="league.edit-schedule({itemID:{{ctrl.item.id}}, roundNum:{{$index + 1}}})">Round {{$index + 1}}</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel-body">
+
+		<error-view></error-view>
+
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-4 col-lg-3">
+					<h4>Teams</h4>
+					<table class="table table-striped table-condensed small">
+						<tbody>
+							<tr ng-repeat="item in ctrl.leagueTeams">
+								<td>
+									<span class="glyphicon" ng-class="ctrl.isTeamAssigned(item) ? 'glyphicon-check' : 'glyphicon-unchecked'"></span>
+									<a ui-sref="team.detail({itemID:{{item.teamId}}})">{{item.fullName}}</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<no-content-view ng-show="ctrl.noContentFound"></no-content-view>
+				</div>
+				<div class="col-md-8 col-lg-9" ng-init="ctrl.matchForms = []">
+					<h4>Round {{ctrl.roundNum}} matches</h4>
+
+					<div ng-repeat="item in ctrl.matches" ng-controller="EditMatchRowController as rowCtrl" class="row">
+
+						<form name="rowCtrl.form" novalidate>
+							<fieldset ng-init="ctrl.matchForms.push(rowCtrl.form)">
+
+								<!-- date input -->
+
+								<div class="col-md-4 form-group" ng-class="{ 'has-error' : rowCtrl.form.dateInput.$invalid && rowCtrl.form.dateInput.$touched }">
+									<div class="input-group">
+
+										<input name="dateInput" type="text" class="form-control" ng-disabled="ctrl.formDisabled"
+											   datepicker-popup="yyyy-mm-dd" placeholder="yyyy-mm-dd"
+											   uib-datepicker-popup show-button-bar="false"
+											   ng-model="item.date"
+											   is-open="rowCtrl.datePickerOpened"
+											   datepicker-options="ctrl.matchDateOptions"
+											   required date-min-max-validation datepicker-localdate />
+
+										<span class="input-group-btn">
+											<button type="button" class="btn btn-default" ng-click="rowCtrl.datePickerOpened = true">
+												<i class="glyphicon glyphicon-calendar"></i>
+											</button>
+										</span>
+									</div>
+								</div>
+
+								<!-- team 1 -->
+
+								<div class="col-md-4 form-group" ng-class="{ 'has-error' : rowCtrl.form.team1Input.$invalid && rowCtrl.form.team1Input.$touched}">
+									<div class="form-group">
+										<ui-select name="team1Input" theme="bootstrap" search-enabled="false" required
+												   ng-model="item.team1" ng-init="ctrl.fixClearFunction($select)"
+												   ng-disabled="ctrl.formDisabled" on-select="ctrl.onTeamAssigned($item)">
+											<ui-select-match placeholder="Home Team" class="ui-select-match" allow-clear="true">
+												{{$select.selected.fullName}}
+											</ui-select-match>
+											<ui-select-choices repeat="item in ctrl.leagueTeams" class="ui-select-choices"
+															   ui-disable-choice="ctrl.isTeamAssigned(item)">
+												<div ng-bind-html="item.fullName | highlight: $select.search"></div>
+											</ui-select-choices>
+										</ui-select>
+									</div>
+								</div>
+
+								<!-- team 2 -->
+
+								<div class="col-md-4 form-group" ng-class="{ 'has-error' : rowCtrl.form.team2Input.$invalid && rowCtrl.form.team2Input.$touched}">
+									<div class="form-group">
+										<ui-select name="team2Input" theme="bootstrap" search-enabled="false" required
+												   ng-model="item.team2" ng-init="ctrl.fixClearFunction($select)"
+												   ng-disabled="ctrl.formDisabled" on-select="ctrl.onTeamAssigned($item)">
+											<ui-select-match placeholder="Away Team" class="ui-select-match" allow-clear="true">
+												{{$select.selected.fullName}}
+											</ui-select-match>
+											<ui-select-choices repeat="item in ctrl.leagueTeams" class="ui-select-choices"
+															   ui-disable-choice="ctrl.isTeamAssigned(item)">
+												<div ng-bind-html="item.fullName | highlight: $select.search"></div>
+											</ui-select-choices>
+										</ui-select>
+									</div>
+								</div>
+								<div class="col-md-12 hidden-md hidden-lg">
+									<hr />
+								</div>
+							</fieldset>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<div class="row text-right">
+				<button id="editButton" name="editButton" type="button" ng-if="ctrl.formDisabled"
+						class="btn btn-primary" ng-click="ctrl.onEditClick()">
+					Edit Round Schedule
+				</button>
+				<button id="removeAllButton" name="removeAllButton" type="button" ng-if="!ctrl.formDisabled && ctrl.hasSavedMatches"
+						class="btn btn-danger" ng-click="ctrl.onRemoveAllClick()">
+					Remove All Matches
+				</button>
+				<button id="saveButton" name="saveButton" type="submit" ng-if="!ctrl.formDisabled" ng-disabled="!ctrl.isSavePossible(ctrl.matchForms)"
+						class="btn btn-primary" ng-click="ctrl.onSaveClick()">
+					Save Round Schedule
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

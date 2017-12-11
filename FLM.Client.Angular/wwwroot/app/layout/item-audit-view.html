@@ -1,0 +1,12 @@
+﻿<div class="small">
+	<div ng-show="ctrl.item.creationDateTime">
+		<span><b>Created By:</b> {{ctrl.item.creationUser}}</span>
+		<br />
+		<span><b>Creation Date:</b> {{ctrl.item.creationDateTime | date:'medium'}}</span>
+	</div>
+	<div ng-show="ctrl.item.lastUpdateDateTime">
+		<span><b>Last Updated By:</b> {{ctrl.item.lastUpdateUser}}</span>
+		<br />
+		<span><b>Last Update Date:</b> {{ctrl.item.lastUpdateDateTime | date:'medium'}}</span>
+	</div>
+</div>

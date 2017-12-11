@@ -1,0 +1,178 @@
+﻿<div class="panel panel-default">
+
+	<div class="panel-body">
+
+		<error-view></error-view>
+
+		<form name="itemForm" class="form-horizontal" novalidate>
+			<fieldset>
+
+				<!-- Form Name -->
+				<legend>Edit Match Results</legend>
+
+				<!-- team1Score input-->
+				<div class="form-group">
+					<!-- team1 label -->
+					<label class="col-xs-8 col-sm-4 col-md-4 col-lg-4 control-label" for="team1ScoreInput">{{ctrl.item.team1FullName}}</label>
+					<!-- team1 score -->
+					<div class=" col-xs-4 col-sm-2 col-md-2 col-lg-2"
+						 ng-class="{ 'has-error' : itemForm.team1ScoreInput.$invalid}">
+						<input id="team1ScoreInput" name="team1ScoreInput" required
+							   class="form-control input-md" type="number" min="0" max="99" ng-model="ctrl.item.team1Score" />
+					</div>
+					<!-- team2 score -->
+					<div class="col-xs-4 col-sm-2 col-md-2 col-lg-2 col-xs-push-8 col-sm-push-0"
+						 ng-class="{ 'has-error' : itemForm.team2ScoreInput.$invalid}">
+						<input id="team2ScoreInput" name="team2ScoreInput" required
+							   class="form-control input-md" type="number" min="0" max="99" ng-model="ctrl.item.team2Score" />
+					</div>
+					<!-- team2 label -->
+					<label class="col-xs-8 col-sm-4 col-md-4 col-lg-4 col-xs-pull-4 col-sm-pull-0 control-label" for="team2ScoreInput" style="text-align:left;">{{ctrl.item.team2FullName}}</label>
+				</div>
+
+				<div class="row text-center small">
+					<div><a ui-sref="league.detail({itemID:{{ctrl.item.leagueId}}})">{{ctrl.item.leagueFullName}}</a></div>
+					<div>{{ctrl.item.date | date:'mediumDate'}}</div>
+					<div><a ui-sref="league.edit-schedule({itemID:{{ctrl.item.leagueId}}, roundNum:{{ctrl.item.round}}})">Round {{ctrl.item.round}}</a></div>
+				</div>
+
+				<hr />
+			</fieldset>
+		</form>
+
+		<div>
+			<div class="row text-center">
+				<h4>Scores:
+					<span ng-class="ctrl.isTotalScoresCountValid() ? 'text-success' : 'text-danger'">
+						<span><b>{{ctrl.scores.length}}</b></span>
+						<span> / <b>{{ctrl.item.team1Score + ctrl.item.team2Score}}</b></span>
+					</span>
+					<span class="small">
+						<em>(
+							<span ng-class="ctrl.isScoresCountByTeamValid(true) ? 'text-success' : 'text-danger'">{{ctrl.item.team1Score}}</span>
+							<span> + </span>
+							<span ng-class="ctrl.isScoresCountByTeamValid(false) ? 'text-success' : 'text-danger'">{{ctrl.item.team2Score}}</span>
+						)
+						</em>
+					</span>
+				</h4>
+				<hr />
+			</div>
+
+			<form class="" name="scoreInputForm" novalidate>
+				<fieldset>
+
+					<!-- Team -->
+
+					<div class="form-group col-xs-12 col-sm-6 col-md-3 col-lg-3"
+						 ng-class="{ 'has-error' : scoreInputForm.teamSelector.$invalid && scoreInputForm.teamSelector.$touched}">
+						<label for="teamSelector">Team</label>
+						<ui-select name="teamSelector" theme="bootstrap" search-enabled="false"
+								ng-model="ctrl.scoreInput.team" ng-change="ctrl.resetScorePlayer()" required>
+							<ui-select-match placeholder="Team">{{$select.selected.label}}</ui-select-match>
+							<ui-select-choices repeat="item in ctrl.teams">
+								<b>{{item.label}}</b>
+							</ui-select-choices>
+						</ui-select>
+					</div>
+
+					<!-- Player -->
+
+					<div class="form-group col-xs-12 col-sm-6 col-md-3 col-lg-3"
+						 ng-class="{ 'has-error' : scoreInputForm.playerSelector.$invalid && scoreInputForm.playerSelector.$touched}">
+						<label for="playerSelector">Player</label>
+						<ui-select name="playerSelector" theme="bootstrap" search-enabled="true"
+									ng-model="ctrl.scoreInput.player" ng-disabled="!ctrl.scoreInput.team" required>
+							<ui-select-match placeholder="Player">#{{$select.selected.number}} {{ctrl.getPlayerDisplayName($select.selected)}}</ui-select-match>
+							<ui-select-choices repeat="item in ctrl.getPlayersProvider()">
+								<span>#{{item.number}} <b>{{ctrl.getPlayerDisplayName(item)}}</b></span>
+							</ui-select-choices>
+						</ui-select>
+					</div>
+
+					<!-- Own Goal -->
+
+					<div class="form-group col-xs-2 col-sm-1 col-md-1 col-lg-1">
+						<label for="ogCheckbox"><abbr title="Own Goal">OG</abbr></label>
+						<div class="checkbox form-control-static" style="margin-top:0;">
+							<input type="checkbox" name="ogCheckbox" style="margin-left:0;"
+								   ng-model="ctrl.scoreInput.isOG"
+								   ng-change="ctrl.resetScorePlayer()"
+								   ng-disabled="ctrl.scoreInput.isPenalty" />
+						</div>
+					</div>
+
+					<!-- Penalty -->
+
+					<div class="form-group col-xs-2 col-sm-1 col-md-1 col-lg-1">
+						<label for="ogCheckbox"><abbr title="Penalty">P</abbr></label>
+						<div class="checkbox form-control-static" style="margin-top:0;">
+							<input type="checkbox" name="ogCheckbox" style="margin-left:0;"
+								   ng-model="ctrl.scoreInput.isPenalty"
+								   ng-disabled="ctrl.scoreInput.isOG" />
+						</div>
+					</div>
+
+					<!-- Minute -->
+
+					<div class="form-group col-xs-8 col-sm-4 col-md-2 col-lg-2"
+						 ng-class="{ 'has-error' : scoreInputForm.minuteInput.$invalid && scoreInputForm.minuteInput.$touched}">
+						<label for="minuteInput">Minute</label>
+						<input name="minuteInput" class="form-control input-md" type="number"
+							   required min="1" max="90" ng-model="ctrl.scoreInput.minute" />
+					</div>
+
+					<div class="form-group col-xs-12 col-sm-6 col-md-2 col-lg-2">
+						<div class="text-right" style="height: 58px; padding-top:24px;">
+							<button name="addScoreButton" type="submit" ng-disabled="scoreInputForm.$invalid"
+									class="btn btn-primary" style="width:100%;" ng-click="ctrl.addScore()">
+								Add Score
+							</button>
+						</div>
+					</div>
+				</fieldset>
+			</form>
+
+			<hr />
+
+			<div class="row text-center">
+				<div class="col-xs-5 text-right">
+					<div ng-repeat="score in ctrl.getTeamScores(ctrl.item.team1Id)" style="padding-bottom:2px;">
+						<span>{{score.playerFullName}} {{score.minute}}'</span>
+						<span ng-if="score.isOG"><b>(OG)</b></span>
+						<span ng-if="score.isPenalty"><b>(P)</b></span>
+						<span ng-if="!score.id" class="small text-warning">[new]</span>
+						<button type="button" class="btn btn-danger btn-xs" ng-click="ctrl.removeScore(score)">
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</button>
+					</div>
+				</div>
+				<div class="col-xs-2">
+				</div>
+				<div class="col-xs-5 text-left">
+					<div ng-repeat="score in ctrl.getTeamScores(ctrl.item.team2Id)" style="padding-bottom:2px;">
+						<button type="button" class="btn btn-danger btn-xs" ng-click="ctrl.removeScore(score)">
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</button>
+						<span ng-if="!score.id" class="small text-warning">[new]</span>
+						<span>{{score.playerFullName}} {{score.minute}}'</span>
+						<span ng-if="score.isOG"><b>(OG)</b></span>
+						<span ng-if="score.isPenalty"><b>(P)</b></span>
+					</div>
+				</div>
+			</div>
+
+			<hr />
+		</div>
+
+		<!-- Submit Button -->
+		<div class="form-group">
+			<div class="col-md-12 text-right">
+				<button id="createButton" name="createButton" type="submit" ng-disabled="itemForm.$invalid || !ctrl.isAllScoresValid()"
+						class="btn btn-primary" ng-click="ctrl.save()">
+					Save Results
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

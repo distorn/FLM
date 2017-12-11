@@ -1,0 +1,76 @@
+﻿<div class="panel panel-default">
+
+	<div class="panel-heading">
+		<h5><a ui-sref="team.edit({itemID:{{ctrl.item.id}}})">{{ctrl.getDisplayName()}}</a>: Manage Players</h5>
+	</div>
+	<div class="panel-body">
+
+		<error-view></error-view>
+
+		<div class="container-fluid">
+
+			<form name="addPlayerForm" class="form-inline row">
+
+				<!-- Search Field -->
+
+				<div class="form-group col-lg-8 col-md-7 col-sm-7 col-xs-12"
+					 ng-class="{ 'has-error' : addPlayerForm.playerSearchInput.$invalid && addPlayerForm.playerSearchInput.$touched}">
+					<ui-select id="playerSearchInput" name="playerSearchInput" theme="bootstrap"
+							   ng-model="ctrl.playerSearchItem" required>
+						<ui-select-match placeholder="Search Player" allow-clear="true">{{$select.selected.fullName}}</ui-select-match>
+						<ui-select-choices repeat="item in ctrl.playerSearchResults"
+										   refresh="ctrl.refreshPlayerSearch($select.search)"
+										   minimum-input-length="1" refresh-delay="0">
+							<div ng-bind-html="item.fullName | highlight: $select.search"></div>
+							<small>{{item.dateOfBirth | date:'yyyy'}}</small>
+						</ui-select-choices>
+					</ui-select>
+				</div>
+
+				<!-- As # Field -->
+
+				<div class="text-right col-lg-1 col-md-1 col-sm-1 col-xs-2" style="height: 33px; line-height: 33px;">
+					<span class="text-nowrap">as #</span>
+				</div>
+
+				<div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-10"
+					 ng-class="{ 'has-error' : addPlayerForm.playerNumberInput.$invalid && !addPlayerForm.playerNumberInput.$pristine }">
+					<input id="playerNumberInput" name="playerNumberInput" placeholder="" required
+							class="form-control" style="width:100%;" type="number" ng-model="ctrl.playerNumber"
+							min="1" max="99">
+				</div>
+
+				<!-- Add Button -->
+
+				<div class="form-group col-lg-1 col-md-2 col-sm-2 col-xs-12">
+					<button type="submit" class="btn btn-primary" style="width:100%;"
+							ng-click="ctrl.assignPlayer()" ng-disabled="addPlayerForm.$invalid">Add</button>
+				</div>
+			</form>
+
+			<div class="row">
+			</div>
+			<hr />
+			<table class="table table-striped table-condensed">
+				<tbody>
+					<tr ng-repeat="item in ctrl.teamPlayers">
+
+						<td class="col-lg-10">
+							<span style="width:30px; float:left;">{{item.number}}</span>
+							<a ui-sref="player.detail({itemID:{{item.playerId}}})">{{ctrl.getPlayerDisplayName(item)}}</a>
+						</td>
+						<td class="col-lg-1 text-right">{{item.dateOfBirth | date:'yyyy'}}</td>
+
+						<td class="col-lg-1 text-right">
+							<button type="button" class="btn btn-default btn-xs" aria-label="Delete"
+									ng-click="ctrl.removePlayer(item)">
+								<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<no-content-view ng-show="ctrl.noContentFound"></no-content-view>
+		</div>
+	</div>
+</div>

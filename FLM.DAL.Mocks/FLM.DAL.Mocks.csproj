@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FLM.DAL.EFCore\FLM.DAL.EFCore.csproj" />
+    <ProjectReference Include="..\FLM.DAL\FLM.DAL.csproj" />
+    <ProjectReference Include="..\FLM.Model\FLM.Model.csproj" />
+  </ItemGroup>
+
+</Project>

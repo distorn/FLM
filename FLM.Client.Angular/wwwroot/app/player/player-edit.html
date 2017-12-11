@@ -1,0 +1,106 @@
+﻿<div class="panel panel-default">
+
+	<div class="panel-body">
+
+		<error-view></error-view>
+
+		<form name="itemForm" class="form-horizontal" novalidate>
+			<fieldset>
+
+				<!-- Form Name -->
+				<legend>{{ctrl.title}}</legend>
+
+				<!-- firstName input-->
+				<div class="form-group" ng-class="{ 'has-error' : itemForm.firstNameInput.$invalid && !itemForm.firstNameInput.$pristine }">
+					<!-- label -->
+					<label class="col-md-4 control-label" for="firstNameInput">First Name</label>
+					<!-- input -->
+					<div class="col-md-4">
+						<input id="firstNameInput" name="firstNameInput" placeholder="First Name" required
+							   class="form-control input-md" type="text" ng-model="ctrl.item.firstName" />
+					</div>
+					<!-- errors -->
+					<div class="col-md-4 help-block" ng-messages="itemForm.firstNameInput.$error" ng-show="itemForm.firstNameInput.$touched" role="alert">
+						<div ng-messages-include="app/layout/field-validation-messages.html"></div>
+					</div>
+				</div>
+
+				<!-- lastName input-->
+				<div class="form-group" ng-class="{ 'has-error' : itemForm.lastNameInput.$invalid && !itemForm.lastNameInput.$pristine }">
+					<!-- label -->
+					<label class="col-md-4 control-label" for="lastNameInput">Last Name</label>
+					<!-- input -->
+					<div class="col-md-4">
+						<input id="lastNameInput" name="lastNameInput" placeholder="Last Name" required
+							   class="form-control input-md" type="text" ng-model="ctrl.item.lastName">
+					</div>
+					<!-- errors -->
+					<div class="col-md-4 help-block" ng-messages="itemForm.lastNameInput.$error" ng-show="itemForm.lastNameInput.$touched" role="alert">
+						<div ng-messages-include="app/layout/field-validation-messages.html"></div>
+					</div>
+				</div>
+
+				<!-- DOB date picker-->
+				<div class="form-group" ng-class="{ 'has-error' : itemForm.dobInput.$invalid && !itemForm.dobInput.$pristine }">
+					<!-- label -->
+					<label class="col-md-4 control-label" for="dobInput">Date of birth</label>
+					<!-- input -->
+					<div class="col-md-4">
+						<p class="input-group">
+
+							<input id="dobInput" name="dobInput" type="text" class="form-control"
+								   datepicker-popup="yyyy-mm-dd" placeholder="yyyy-mm-dd"
+								   uib-datepicker-popup show-button-bar="false"
+								   ng-model="ctrl.item.dateOfBirth"
+								   is-open="ctrl.dobPickerOpened"
+								   datepicker-options="ctrl.dobDateOptions"
+								   required date-min-max-validation datepicker-localdate />
+
+							<span class="input-group-btn">
+								<button type="button" class="btn btn-default" ng-click="ctrl.dobPickerOpened = true">
+									<i class="glyphicon glyphicon-calendar"></i>
+								</button>
+							</span>
+						</p>
+					</div>
+					<!-- errors -->
+					<div class="col-md-4 help-block" ng-messages="itemForm.dobInput.$error" ng-show="itemForm.dobInput.$touched" role="alert">
+						<div ng-messages-include="app/layout/field-validation-messages.html"></div>
+					</div>
+				</div>
+
+				<!-- Team -->
+				<div class="form-group" ng-if="ctrl.item.id">
+					<!-- label -->
+					<label class="col-md-4 control-label" for="teamSection">Team</label>
+					<!-- value -->
+					<div class="col-md-4" id="teamSection">
+						<div class="form-control-static">
+							<span ng-if="ctrl.item.teamId">
+								<a ng-if="ctrl.item.teamId" ui-sref="team.detail({itemID:{{ctrl.item.teamId}}})">{{ctrl.item.teamFullName}}</a>
+								<button type="button" class="btn btn-default btn-xs" aria-label="Edit Team"
+										ui-sref="team.edit-players({itemID:{{ctrl.item.teamId}}})">
+									<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+								</button>
+							</span>
+							<span ng-if="!ctrl.item.teamId">N/A</span>
+						</div>
+					</div>
+				</div>
+
+				<!-- Submit Button -->
+				<div class="form-group">
+					<label class="col-md-4 control-label" for="createButton"></label>
+					<div class="col-md-4">
+						<button id="createButton" name="createButton" type="submit" ng-disabled="itemForm.$invalid"
+								class="btn btn-primary" ng-click="ctrl.save()">
+							{{ctrl.saveBtnText}}
+						</button>
+						<button id="deleteButton" name="deleteButton" type="button" ng-show="ctrl.item.id"
+								class="btn btn-danger" ng-click="ctrl.deleteItem()">Delete</button>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+</div>

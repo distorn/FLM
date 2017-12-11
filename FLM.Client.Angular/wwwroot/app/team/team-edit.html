@@ -1,0 +1,104 @@
+﻿<div class="panel panel-default">
+
+	<div class="panel-body">
+
+		<error-view></error-view>
+
+		<form name="itemForm" class="form-horizontal" novalidate>
+			<fieldset>
+
+				<!-- Form Name -->
+				<legend>{{ctrl.title}}</legend>
+
+				<!-- name input-->
+				<div class="form-group" ng-class="{ 'has-error' : itemForm.nameInput.$invalid && !itemForm.nameInput.$pristine }">
+					<!-- label -->
+					<label class="col-md-4 control-label" for="nameInput">Name</label>
+					<!-- input -->
+					<div class="col-md-4">
+						<input id="nameInput" name="nameInput" placeholder="Name" required
+							   class="form-control input-md" type="text" ng-model="ctrl.item.name">
+					</div>
+					<!-- errors -->
+					<div class="col-md-4 help-block" ng-messages="itemForm.nameInput.$error" ng-show="itemForm.nameInput.$touched" role="alert">
+						<div ng-messages-include="app/layout/field-validation-messages.html"></div>
+					</div>
+				</div>
+
+				<!-- city input-->
+				<div class="form-group" ng-class="{ 'has-error' : itemForm.cityInput.$invalid && !itemForm.cityInput.$pristine }">
+					<!-- label -->
+					<label class="col-md-4 control-label" for="cityInput">City</label>
+					<!-- input -->
+					<div class="col-md-4">
+						<input id="cityInput" name="cityInput" placeholder="City" required
+							   class="form-control input-md" type="text" ng-model="ctrl.item.city">
+					</div>
+					<!-- errors -->
+					<div class="col-md-4 help-block" ng-messages="itemForm.cityInput.$error" ng-show="itemForm.cityInput.$touched" role="alert">
+						<div ng-messages-include="app/layout/field-validation-messages.html"></div>
+					</div>
+				</div>
+
+				<!-- foundationYear input-->
+				<div class="form-group" ng-class="{ 'has-error' : itemForm.foundationYearInput.$invalid && !itemForm.foundationYearInput.$pristine }">
+					<!-- label -->
+					<label class="col-md-4 control-label" for="foundationYearInput">Foundation Year</label>
+					<!-- input -->
+					<div class="col-md-4">
+						<input id="foundationYearInput" name="foundationYearInput" placeholder="Foundation Year" required
+							   class="form-control input-md" type="number" ng-model="ctrl.item.foundationYear"
+							   min="{{ctrl.minYear}}" max="{{ctrl.maxYear}}">
+					</div>
+					<!-- errors -->
+					<div class="col-md-4 help-block" ng-messages="itemForm.foundationYearInput.$error" ng-show="itemForm.foundationYearInput.$touched" role="alert">
+						<div ng-messages-include="app/layout/field-validation-messages.html"></div>
+					</div>
+				</div>
+
+				<!-- Manage Players -->
+				<div class="form-group" ng-if="ctrl.item.id">
+					<!-- label -->
+					<label class="col-md-4 control-label" for="playersSection">Players</label>
+					<!-- input -->
+					<div class="col-md-4" id="playersSection">
+
+						<table class="table table-striped table-condensed small">
+							<tbody>
+
+								<tr ng-repeat="item in ctrl.teamPlayers">
+									<td>{{item.number}}</td>
+									<td class="text-left">
+										<a ui-sref="player.detail({itemID:{{item.playerId}}})">{{ctrl.getPlayerDisplayName(item)}}</a>
+									</td>
+								</tr>
+
+								<tr ng-hide="ctrl.teamPlayers.length">
+									<td class="text-center">No players assigned.</td>
+								</tr>
+							</tbody>
+						</table>
+
+						<div class="text-right">
+							<button type="button" class="btn btn-default btn-sm"
+									ui-sref="team.edit-players({itemID:{{ctrl.item.id}}})">Manage Players</button>
+						</div>
+					</div>
+				</div>
+
+				<!-- Submit Button -->
+				<div class="form-group">
+					<label class="col-md-4 control-label" for="createButton"></label>
+					<div class="col-md-4">
+						<button id="createButton" name="createButton" type="submit" ng-disabled="itemForm.$invalid"
+								class="btn btn-primary" ng-click="ctrl.save()">
+							{{ctrl.saveBtnText}}
+						</button>
+						<button id="deleteButton" name="deleteButton" type="button" ng-show="ctrl.item.id"
+								class="btn btn-danger" ng-click="ctrl.deleteItem()">Delete</button>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+</div>

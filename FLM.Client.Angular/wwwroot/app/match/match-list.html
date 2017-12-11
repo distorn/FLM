@@ -1,0 +1,164 @@
+<div class="panel panel-default">
+
+	<!-- Header -->
+
+	<div class="panel-heading">
+		<div class="row">
+			<h4 class="col-xs-6">Browse Matches</h4>
+		</div>
+	</div>
+
+	<div class="panel-body">
+
+		<error-view></error-view>
+
+		<!-- Filters -->
+
+		<div class="row">
+			<form name="filterForm" novalidate>
+
+				<!-- League -->
+
+				<div class="form-group col-sm-12 col-md-6" ng-if="!ctrl.byTeamMode">
+					<label for="leagueSelector">Tournament</label>
+					<ui-select name="leagueSelector" theme="bootstrap" search-enabled="false"
+							   ng-model="ctrl.selectedLeague"
+							   ng-disabled="ctrl.tournamentLocked"
+							   ng-change="ctrl.updateList()">
+						<ui-select-match placeholder="Tournament">{{$select.selected.label}}</ui-select-match>
+						<ui-select-choices repeat="item in ctrl.tournaments">
+							<b ng-if="!item.data">{{item.label}}</b>
+							<div ng-if="item.data">
+								<b>{{item.label}}</b>
+								<div class="small">{{item.data.startDate | date:'mediumDate'}} - {{item.data.endDate | date:'mediumDate'}}</div>
+							</div>
+						</ui-select-choices>
+					</ui-select>
+				</div>
+
+				<!-- Team -->
+
+				<div class="form-group col-sm-12 col-md-6" ng-if="ctrl.byTeamMode">
+					<label for="teamSelector">Team</label>
+
+					<ui-select name="teamSelector" theme="bootstrap"
+							   ng-model="ctrl.selectedTeam"
+							   ng-disabled="ctrl.teamLocked"
+							   ng-change="ctrl.updateList()">
+						<ui-select-match placeholder="Team" allow-clear="true">{{$select.selected.fullName}}</ui-select-match>
+						<ui-select-choices repeat="item in ctrl.teamSearchResults"
+										   refresh="ctrl.refreshTeamSearch($select.search)"
+										   minimum-input-length="1" refresh-delay="0">
+							<div ng-bind-html="item.fullName | highlight: $select.search"></div>
+						</ui-select-choices>
+					</ui-select>
+				</div>
+
+				<!-- Min Date -->
+
+				<div class="form-group col-sm-6 col-md-3">
+					<label for="minDateInput">From</label>
+					<div class="input-group" ng-class="{ 'has-error' : filterForm.minDateInput.$invalid && filterForm.minDateInput.$touched }">
+
+						<input name="minDateInput" type="text" class="form-control"
+							   datepicker-popup="yyyy-mm-dd" placeholder="yyyy-mm-dd"
+							   uib-datepicker-popup show-button-bar="false"
+							   ng-model="ctrl.minDate" ng-change="ctrl.updateList()"
+							   is-open="ctrl.minDatePickerOpened"
+							   datepicker-options="ctrl.dateOptions"
+							   date-min-max-validation datepicker-localdate />
+
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default" ng-click="ctrl.minDatePickerOpened = true">
+								<i class="glyphicon glyphicon-calendar"></i>
+							</button>
+						</span>
+					</div>
+				</div>
+
+				<!-- Max Date -->
+
+				<div class="form-group col-sm-6 col-md-3">
+					<label for="maxDateInput">To</label>
+					<div class="input-group form-group" ng-class="{ 'has-error' : filterForm.maxDateInput.$invalid && filterForm.maxDateInput.$touched }">
+
+						<input name="maxDateInput" type="text" class="form-control"
+							   datepicker-popup="yyyy-mm-dd" placeholder="yyyy-mm-dd"
+							   uib-datepicker-popup show-button-bar="false"
+							   ng-model="ctrl.maxDate" ng-change="ctrl.updateList()"
+							   is-open="ctrl.maxDatePickerOpened"
+							   datepicker-options="ctrl.dateOptions"
+							   date-min-max-validation datepicker-localdate />
+
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default" ng-click="ctrl.maxDatePickerOpened = true">
+								<i class="glyphicon glyphicon-calendar"></i>
+							</button>
+						</span>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<hr />
+
+		<!-- Table -->
+
+		<table class="table table-striped table-condensed">
+
+			<thead>
+			<tr>
+				<th class="col-xs-2">Date</th>
+				<th class="col-xs-2">Tournament</th>
+				<th class="col-xs-7 text-center" colspan="3">Match</th>
+				<th class="col-xs-1"></th>
+			</tr>
+			</thead>
+
+			<tbody>
+			<tr ng-repeat="item in ctrl.items">
+
+				<!-- Table Row Fields -->
+
+				<td>{{item.date | date:'mediumDate'}}</td>
+				<td>
+					<div>
+						<a ui-sref="league.detail({itemID:{{item.leagueId}}})">{{item.leagueFullName}}</a>
+						<span class="small">Round # {{item.round}}</span>
+					</div>
+				</td>
+
+				<td class="text-right"><a ui-sref="team.detail({itemID:{{item.team1Id}}})">{{item.team1FullName}}</a></td>
+				<td class="text-center">
+					<a ui-sref="match.detail({itemID:{{item.id}}})" ng-if="item.team1Score != undefined">
+						<b>{{item.team1Score}} : {{item.team2Score}}</b>
+					</a>
+					<span ng-if="item.team1Score == undefined"> - : - </span>
+				</td>
+				<td><a ui-sref="team.detail({itemID:{{item.team2Id}}})">{{item.team2FullName}}</a></td>
+
+				<!-- Table Row Controls -->
+
+				<td class="text-right">
+					<button type="button" class="btn btn-default btn-xs"
+							ng-show="user.isAdmin" aria-label="Edit"
+							ui-sref="match.edit({itemID:{{item.id}}})">
+						<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+					</button>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+
+		<no-content-view ng-show="ctrl.noContentFound"></no-content-view>
+
+		<!-- Pagination -->
+
+		<ul uib-pagination
+			total-items="ctrl.pagingModel.totalItems"
+			ng-model="ctrl.pagingModel.currentPage"
+			items-per-page="ctrl.pagingModel.itemsPerPage"
+			ng-change="ctrl.pageChangeHandler()"
+			max-size="10" class="pagination-sm" boundary-links="true" force-ellipses="true"></ul>
+	</div>
+</div>

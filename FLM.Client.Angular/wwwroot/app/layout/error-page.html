@@ -1,0 +1,23 @@
+<div class="row" ng-controller="ErrorPageController as ctrl">
+	<div class="col-sm-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">{{ctrl.title}}</div>
+			<div class="panel-body">
+				{{ctrl.message}}
+
+				<div class="panel-group" ng-show="{{ctrl.detailsVisible}}">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<a data-toggle="collapse" data-target="#errorInfo" href="">Detailed Error Info</a>
+						</div>
+						<div id="errorInfo" class="panel-collapse collapse">
+							<div class="panel-body">
+								<pre>{{ctrl.errorData | json}}</pre>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

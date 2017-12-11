@@ -1,0 +1,132 @@
+<div class="panel panel-default">
+
+	<div class="panel-body">
+
+		<error-view></error-view>
+
+		<form name="itemForm" class="form-horizontal" novalidate>
+			<fieldset>
+
+				<legend>{{ctrl.getDisplayName()}}</legend>
+
+				<!-- Item Info -->
+
+				<div>
+					<span><b>ID:</b> {{ctrl.item.id}}</span>
+					<br />
+					<span><b>Start:</b> {{ctrl.item.startDate | date:'mediumDate'}}</span>
+					<br />
+					<span><b>End:</b> {{ctrl.item.endDate | date:'mediumDate'}}</span>
+					<br />
+					<span><b>Rounds:</b> {{ctrl.item.roundsCount}}</span>
+				</div>
+
+				<!-- Table -->
+
+				<div>
+					<hr />
+					<h4>Table</h4>
+
+					<div class="row">
+						<div class="col-md-12 col-lg-6">
+							<table class="table table-striped table-condensed small">
+
+								<thead>
+									<tr>
+										<th class="col-xs-1">Position</th>
+										<th class="col-xs-4">Team</th>
+										<th class="col-xs-1 text-center">Played</th>
+										<th class="col-xs-1 text-center">Won</th>
+										<th class="col-xs-1 text-center">Drawn</th>
+										<th class="col-xs-1 text-center">Lost</th>
+										<th class="col-xs-2 text-center">Goals</th>
+										<th class="col-xs-1 text-center">Points</th>
+									</tr>
+								</thead>
+
+								<tbody>
+									<tr ng-repeat="item in ctrl.leagueTable">
+
+										<td>{{item.position}}</td>
+										<td><a ui-sref="team.detail({itemID:{{item.teamId}}})">{{item.teamFullName}}</a></td>
+
+										<td class="text-center">{{item.matchesPlayed}}</td>
+
+										<td class="text-center">{{item.matchesWon}}</td>
+										<td class="text-center">{{item.matchesDrawn}}</td>
+										<td class="text-center">{{item.matchesLost}}</td>
+
+										<td class="text-center">{{item.goalsFor}} - {{item.goalsAgainst}}</td>
+
+										<td class="text-center"><b>{{item.points}}</b></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+				<!-- Matches -->
+
+				<div>
+					<hr />
+					<h4>Matches for round <input type="number" style="width: 42px;" min="1" max="{{ctrl.item.roundsCount}}" ng-model="ctrl.roundNum" ng-change="ctrl.onRoundChanged()"> :</h4>
+
+					<div class="row">
+						<div class="col-md-12 col-lg-6">
+							<table class="table table-striped table-condensed small">
+
+								<thead>
+									<tr>
+										<th class="col-xs-3">Date</th>
+										<th class="col-xs-4 text-right">Home Team</th>
+										<th class="col-xs-1 text-center">Score</th>
+										<th class="col-xs-4">Away Team</th>
+									</tr>
+								</thead>
+
+								<tbody>
+									<tr ng-repeat="match in ctrl.matches">
+
+										<td>{{match.date | date:'mediumDate'}}</td>
+										<td class="text-right"><a ui-sref="team.detail({itemID:{{match.team1Id}}})">{{match.team1FullName}}</a></td>
+										<td class="text-center">
+											<a ui-sref="match.detail({itemID:{{match.id}}})" ng-if="match.team1Score != undefined">
+												<b>{{match.team1Score}} : {{match.team2Score}}</b>
+											</a>
+											<span ng-if="match.team1Score == undefined"> - : - </span>
+										</td>
+										<td><a ui-sref="team.detail({itemID:{{match.team2Id}}})">{{match.team2FullName}}</a></td>
+									</tr>
+
+									<tr ng-repeat="i in ctrl.getMissingMatches() track by $index">
+
+										<td>N/A</td>
+										<td class="text-right">TBA</td>
+										<td class="text-center"> - : - </td>
+										<td>TBA</td>
+									</tr>
+								</tbody>
+							</table>
+							<div class="text-right">
+								<a ui-sref="match.listByLeague({leagueID:{{ctrl.item.id}}})">&gt; All Matches</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Audit Info -->
+
+				<div ng-show="user.isAdmin">
+					<hr />
+					<item-audit-view item="ctrl.item"></item-audit-view>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+
+	<div class="panel-footer" ng-show="user.isAdmin">
+		<button class="btn btn-primary" ui-sref="league.edit({itemID:{{ctrl.item.id}}})">Edit</button>
+		<button class="btn btn-danger" ng-click="ctrl.deleteItem()">Delete</button>
+	</div>
+</div>

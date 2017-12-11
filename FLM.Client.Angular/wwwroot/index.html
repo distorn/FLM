@@ -1,0 +1,135 @@
+﻿<!DOCTYPE html>
+<html ng-app="FLMClientApp">
+
+<head>
+	<meta charset="utf-8" />
+	<base href="/">
+	<title>Football League manager</title>
+
+	<link href="favicon.png" rel="icon" type="image/png" />
+	<link href="content/all.min.css" rel="stylesheet" />
+
+	<!-- Release Files -->
+
+	<!--<script src="content/libs.min.js"></script>
+	<script src="content/app.config.js"></script>
+	<script src="content/app.min.js"></script>-->
+
+	<!-- Development Files -->
+
+	<script src="lib/angular/angular.js"></script>
+	<script src="lib/jquery/dist/jquery.js"></script>
+	<script src="lib/ui-router/release/angular-ui-router.js"></script>
+	<script src="lib/angular-messages/angular-messages.js"></script>
+	<script src="lib/angular-animate/angular-animate.js"></script>
+	<script src="lib/angular-sanitize/angular-sanitize.js"></script>
+	<script src="lib/bootstrap/dist/js/bootstrap.js"></script>
+	<script src="lib/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+	<script src="lib/angular-local-storage/dist/angular-local-storage.js"></script>
+	<script src="lib/angular-ui-select/dist/select.js"></script>
+	<script src="lib/ng-lodash/build/ng-lodash.min.js"></script>
+
+	<script src="content/app.config.js"></script>
+	<script src="app/app.module.js"></script>
+	<script src="app/app.config.js"></script>
+
+	<script src="app/utils/utils.module.js"></script>
+	<script src="app/utils/date-field-converter.service.js"></script>
+	<script src="app/utils/date-min-max-validation.directive.js"></script>
+	<script src="app/utils/datepicker-localdate.directive.js"></script>
+	<script src="app/utils/date-utils.service.js"></script>
+	<script src="app/utils/paging-utils.service.js"></script>
+	<script src="app/utils/string-utils.service.js"></script>
+	<script src="app/utils/jwt-utils.service.js"></script>
+	<script src="app/utils/chunk.filter.js"></script>
+
+	<script src="app/auth/auth.module.js"></script>
+	<script src="app/auth/auth.config.js"></script>
+	<script src="app/auth/auth.constants.js"></script>
+	<script src="app/auth/auth.routes.js"></script>
+	<script src="app/auth/app-state.service.js"></script>
+	<script src="app/auth/authorization.interceptor.js"></script>
+	<script src="app/auth/security.service.js"></script>
+	<script src="app/auth/authorize.controller.js"></script>
+	<script src="app/auth/logoff.controller.js"></script>
+
+	<script src="app/layout/layout.controller.js"></script>
+	<script src="app/layout/error-page.controller.js"></script>
+	<script src="app/layout/error-view.component.js"></script>
+	<script src="app/layout/error-log.service.js"></script>
+	<script src="app/layout/no-content-view.component.js"></script>
+	<script src="app/layout/item-audit-view.component.js"></script>
+
+	<script src="app/league/league.module.js"></script>
+	<script src="app/league/league.routes.js"></script>
+	<script src="app/league/league.list.controller.js"></script>
+	<script src="app/league/league.details.controller.js"></script>
+	<script src="app/league/league.edit.controller.js"></script>
+	<script src="app/league/league.edit-teams.controller.js"></script>
+	<script src="app/league/league.edit-schedule.controller.js"></script>
+	<script src="app/league/edit-match-row.controller.js"></script>
+	<script src="app/league/league.service.js"></script>
+
+	<script src="app/team/team.module.js"></script>
+	<script src="app/team/team.routes.js"></script>
+	<script src="app/team/team.list.controller.js"></script>
+	<script src="app/team/team.details.controller.js"></script>
+	<script src="app/team/team.edit.controller.js"></script>
+	<script src="app/team/team.edit-players.controller.js"></script>
+	<script src="app/team/team.service.js"></script>
+
+	<script src="app/player/player.module.js"></script>
+	<script src="app/player/player.routes.js"></script>
+	<script src="app/player/player.list.controller.js"></script>
+	<script src="app/player/player.details.controller.js"></script>
+	<script src="app/player/player.edit.controller.js"></script>
+	<script src="app/player/player.service.js"></script>
+
+	<script src="app/match/match.module.js"></script>
+	<script src="app/match/match.routes.js"></script>
+	<script src="app/match/match.list.controller.js"></script>
+	<script src="app/match/match.details.controller.js"></script>
+	<script src="app/match/match.edit.controller.js"></script>
+	<script src="app/match/match.service.js"></script>
+
+</head>
+
+<body ng-controller="LayoutController as layout" style="padding-top: 67px; background-color:#f2f2f2">
+	<!-- header -->
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<!-- menu button -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<!-- brand -->
+				<a class="navbar-brand" href="/">FLM Angular Client</a>
+			</div>
+
+			<div class="navbar-collapse collapse">
+				<!-- menu items -->
+				<ul class="nav navbar-nav">
+					<li ng-repeat="item in layout.menuItems" class="{{layout.isSelected(item) ? 'active' : ''}}">
+						<a ui-sref="{{item.link}}">{{item.title}}</a>
+					</li>
+				</ul>
+				<!-- account -->
+				<ul class="nav navbar-nav navbar-right" ng-show="!user.isAuthorized">
+					<li><a ui-sref="authorize">Login</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right" ng-show="user.isAuthorized">
+					<li><a>{{user.email}}</a></li>
+					<li><a ui-sref="logoff">Logout</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<!-- view -->
+	<div class="container-fluid" role="main" ui-view>
+	</div>
+</body>
+</html>

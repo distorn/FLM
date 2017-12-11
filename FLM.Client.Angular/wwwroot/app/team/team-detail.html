@@ -1,0 +1,70 @@
+<div class="panel panel-default">
+
+	<div class="panel-body">
+
+		<error-view></error-view>
+
+		<form name="itemForm" class="form-horizontal" novalidate>
+			<fieldset>
+
+				<legend>{{ctrl.getDisplayName()}}</legend>
+
+				<!-- Item Info -->
+
+				<div>
+					<span><b>ID:</b> {{ctrl.item.id}}</span>
+					<br />
+					<span><b>Name:</b> {{ctrl.item.name}}</span>
+					<br />
+					<span><b>City:</b> {{ctrl.item.city}}</span>
+					<br />
+					<span><b>Founded:</b> {{ctrl.item.foundationYear}}</span>
+				</div>
+
+				<!-- Players -->
+
+				<hr />
+				<div>
+					<span><b>Players [{{ctrl.teamPlayers.length}}]:</b></span>
+					<div class="row small" ng-repeat="row in ctrl.teamPlayers | chunk:12">
+						<div class="col-sm-4 col-md-3 col-lg-2" ng-repeat="item in row">
+							<a ui-sref="player.detail({itemID:{{item.playerId}}})">{{ctrl.getPlayerDisplayName(item)}}</a>
+						</div>
+					</div>
+				</div>
+
+				<!-- Leagues -->
+
+				<hr />
+				<div>
+					<span><b>Leagues [{{ctrl.teamLeagues.length}}]:</b></span>
+					<div class="small" ng-repeat="item in ctrl.teamLeagues">
+						<a ui-sref="league.detail({itemID:{{item.id}}})">{{ctrl.getLeagueDisplayName(item)}}</a>
+					</div>
+				</div>
+
+				<!-- Matches -->
+
+				<hr />
+				<div>
+					<span><b>Matches:</b></span>
+					<div>
+						<a ui-sref="match.listByTeam({teamID:{{ctrl.item.id}}})">Browse All {{ctrl.getDisplayName()}} Mathces</a>
+					</div>
+				</div>
+
+				<!-- Audit Info -->
+
+				<div ng-show="user.isAdmin">
+					<hr />
+					<item-audit-view item="ctrl.item"></item-audit-view>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+
+	<div class="panel-footer" ng-show="user.isAdmin">
+		<button class="btn btn-primary" ui-sref="team.edit({itemID:{{ctrl.item.id}}})">Edit</button>
+		<button class="btn btn-danger" ng-click="ctrl.deleteItem()">Delete</button>
+	</div>
+</div>

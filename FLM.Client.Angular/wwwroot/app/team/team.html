@@ -1,0 +1,17 @@
+<div class="row">
+
+	<div class="col-md-3 col-lg-2">
+
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<ul class="nav nav-pills nav-stacked">
+					<li><a ui-sref=".list">List</a></li>
+					<li ng-show="user.isAdmin"><a ui-sref=".create">Add New</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-9 col-lg-8" ui-view>
+	</div>
+</div>

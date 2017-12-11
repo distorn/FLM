@@ -1,0 +1,180 @@
+﻿<div class="panel panel-default">
+
+	<div class="panel-body">
+
+		<error-view></error-view>
+
+		<form name="itemForm" class="form-horizontal" novalidate>
+			<fieldset>
+
+				<!-- Form Name -->
+				<legend>{{ctrl.title}}</legend>
+
+				<!-- name input-->
+				<div class="form-group" ng-class="{ 'has-error' : itemForm.nameInput.$invalid && !itemForm.nameInput.$pristine }">
+					<!-- label -->
+					<label class="col-md-4 control-label" for="nameInput">Name</label>
+					<!-- input -->
+					<div class="col-md-4">
+						<input id="nameInput" name="nameInput" placeholder="Name" required
+							   class="form-control input-md" type="text" ng-model="ctrl.item.name" />
+					</div>
+					<!-- errors -->
+					<div class="col-md-4 help-block" ng-messages="itemForm.nameInput.$error" ng-show="itemForm.nameInput.$touched" role="alert">
+						<div ng-messages-include="app/layout/field-validation-messages.html"></div>
+					</div>
+				</div>
+
+				<!-- season input-->
+				<div class="form-group" ng-class="{ 'has-error' : itemForm.seasonInput.$invalid && !itemForm.seasonInput.$pristine }">
+					<!-- label -->
+					<label class="col-md-4 control-label" for="seasonInput">Season</label>
+					<!-- input -->
+					<div class="col-md-4">
+						<input id="seasonInput" name="seasonInput" placeholder="Season" required
+							   class="form-control input-md" type="text" ng-model="ctrl.item.season">
+					</div>
+					<!-- errors -->
+					<div class="col-md-4 help-block" ng-messages="itemForm.seasonInput.$error" ng-show="itemForm.seasonInput.$touched" role="alert">
+						<div ng-messages-include="app/layout/field-validation-messages.html"></div>
+					</div>
+				</div>
+
+				<!-- startDate date picker-->
+				<div class="form-group" ng-class="{ 'has-error' : itemForm.startDateInput.$invalid && !itemForm.startDateInput.$pristine }">
+					<!-- label -->
+					<label class="col-md-4 control-label" for="startDateInput">Start Date</label>
+					<!-- input -->
+					<div class="col-md-4">
+						<div class="input-group">
+
+							<input id="startDateInput" name="startDateInput" type="text" class="form-control"
+								   datepicker-popup="yyyy-mm-dd" placeholder="yyyy-mm-dd"
+								   uib-datepicker-popup show-button-bar="false"
+								   ng-model="ctrl.item.startDate"
+								   is-open="ctrl.startDatePickerOpened"
+								   datepicker-options="ctrl.startDateOptions"
+								   required date-min-max-validation datepicker-localdate />
+
+							<span class="input-group-btn">
+								<button type="button" class="btn btn-default" ng-click="ctrl.startDatePickerOpened = true">
+									<i class="glyphicon glyphicon-calendar"></i>
+								</button>
+							</span>
+						</div>
+					</div>
+					<!-- errors -->
+					<div class="col-md-4 help-block" ng-messages="itemForm.startDateInput.$error" ng-show="itemForm.startDateInput.$touched" role="alert">
+						<div ng-messages-include="app/layout/field-validation-messages.html"></div>
+					</div>
+				</div>
+
+				<!-- endDate date picker-->
+				<div class="form-group" ng-class="{ 'has-error' : itemForm.endDateInput.$invalid && !itemForm.endDateInput.$pristine }">
+					<!-- label -->
+					<label class="col-md-4 control-label" for="endDateInput">End Date</label>
+					<!-- input -->
+					<div class="col-md-4">
+						<div class="input-group">
+
+							<input id="endDateInput" name="endDateInput" type="text" class="form-control"
+								   datepicker-popup="yyyy-mm-dd" placeholder="yyyy-mm-dd"
+								   uib-datepicker-popup show-button-bar="false"
+								   ng-model="ctrl.item.endDate"
+								   is-open="ctrl.endDatePickerOpened"
+								   datepicker-options="ctrl.endDateOptions"
+								   required date-min-max-validation datepicker-localdate />
+
+							<span class="input-group-btn">
+								<button type="button" class="btn btn-default" ng-click="ctrl.endDatePickerOpened = true">
+									<i class="glyphicon glyphicon-calendar"></i>
+								</button>
+							</span>
+						</div>
+					</div>
+					<!-- errors -->
+					<div class="col-md-4 help-block" ng-messages="itemForm.endDateInput.$error" ng-show="itemForm.endDateInput.$touched" role="alert">
+						<div ng-messages-include="app/layout/field-validation-messages.html"></div>
+					</div>
+				</div>
+
+				<!-- roundsCount input-->
+				<div class="form-group" ng-class="{ 'has-error' : itemForm.roundsCountInput.$invalid && !itemForm.roundsCountInput.$pristine }">
+					<!-- label -->
+					<label class="col-md-4 control-label" for="roundsCountInput">Rounds</label>
+					<!-- input -->
+					<div class="col-md-4">
+						<input id="roundsCountInput" name="roundsCountInput"
+							   class="form-control input-md" placeholder="Rounds"
+							   type="number" min="1" max="100" required
+							   ng-model="ctrl.item.roundsCount">
+					</div>
+					<!-- errors -->
+					<div class="col-md-4 help-block" ng-messages="itemForm.roundsCountInput.$error" ng-show="itemForm.roundsCountInput.$touched" role="alert">
+						<div ng-messages-include="app/layout/field-validation-messages.html"></div>
+					</div>
+				</div>
+
+				<!-- Manage Teams -->
+				<div class="form-group" ng-if="ctrl.item.id">
+					<!-- label -->
+					<label class="col-md-4 control-label" for="teamsSection">Teams</label>
+					<!-- input -->
+					<div class="col-md-4" id="teamsSection">
+
+						<table class="table table-striped table-condensed small">
+							<tbody>
+
+								<tr ng-repeat="item in ctrl.leagueTeams">
+									<td>{{$index + 1}}</td>
+									<td class="text-left">
+										<a ui-sref="team.detail({itemID:{{item.teamId}}})">{{item.fullName}}</a>
+									</td>
+								</tr>
+
+								<tr ng-hide="ctrl.leagueTeams.length">
+									<td class="text-center">No teams assigned.</td>
+								</tr>
+							</tbody>
+						</table>
+
+						<div class="text-right">
+							<button type="button" class="btn btn-default btn-sm"
+									ui-sref="league.edit-teams({itemID:{{ctrl.item.id}}})">
+								Manage Teams
+							</button>
+						</div>
+					</div>
+				</div>
+
+				<!-- Schedule -->
+				<div class="form-group" ng-if="ctrl.item.id">
+					<!-- label -->
+					<label class="col-md-4 control-label">Matches</label>
+					<!-- input -->
+					<div class="col-md-4">
+						<div class="text-right">
+							<button type="button" class="btn btn-default btn-sm"
+									ui-sref="league.edit-schedule({itemID:{{ctrl.item.id}}})">
+								Edit Schedule
+							</button>
+						</div>
+					</div>
+				</div>
+
+				<!-- Submit Button -->
+				<div class="form-group">
+					<label class="col-md-4 control-label" for="createButton"></label>
+					<div class="col-md-4">
+						<button id="createButton" name="createButton" type="submit" ng-disabled="itemForm.$invalid"
+								class="btn btn-primary" ng-click="ctrl.save()">
+							{{ctrl.saveBtnText}}
+						</button>
+						<button id="deleteButton" name="deleteButton" type="button" ng-show="ctrl.item.id"
+								class="btn btn-danger" ng-click="ctrl.deleteItem()">Delete</button>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+</div>
