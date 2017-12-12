@@ -1,6 +1,7 @@
 ﻿using FLM.Auth.IdentityServer.Models;
 using FLM.Model.User;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
@@ -23,6 +24,8 @@ namespace FLM.Auth.IdentityServer.Data
 
 		public async void Initialize()
 		{
+			_context.Database.Migrate();
+
 			//create database schema if none exists
 			_context.Database.EnsureCreated();
 
