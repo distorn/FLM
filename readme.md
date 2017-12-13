@@ -79,8 +79,8 @@ Auth Server: https://localhost:44335
 
 If there is a need to change this, please consider to modify following configurational parts of the application:
 
-FLM.Client.Angular/app.config.json : this config file contains urls of API and Auth servers that SPA client works with. After making changes in this file you also need to run front-end build: executing full-build or just build:config-dev/production task. Doing this Gulp converts settings from app.config.json to separate Angular module that contains the above-mentioned urls together with some other provided settings.
+**FLM.Client.Angular**/app.config.json : this config file contains urls of API and Auth servers that SPA client works with. After making changes in this file you also need to run front-end build: executing full-build or just build:config-dev/production task. Doing this Gulp converts settings from app.config.json to separate Angular module that contains the above-mentioned urls together with some other provided settings.
 
-FLM.API/Startup.cs : Here inside ConfigureServices you can find the configuration of Authority server that we use to restrict access to some API methods.
+**FLM.API**/Startup.cs : Here inside ConfigureServices you can find the configuration of Authority server that we use to restrict access to some API methods.
 
-FLM.Auth.IdentityServer/Config.cs : Contains configuration of allowed API resources and clients.
+**FLM.Auth.IdentityServer**/Config.cs : Contains configuration of allowed API resources and clients.
