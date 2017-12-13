@@ -1,6 +1,6 @@
 ## The Project
 
-Football League Manager(FLM) is a demo project that includes Web API ASP.NET Core 2.x back-end with EF Core 2.x as ORM and SPA web client on AngularJS and Bootstrap. The main goal of this project is just to demonstrate my coding skills to potential employers, but of course, it would be nice if some of the strangers that came here found it useful for their educational or other own purposes.
+Football League Manager(FLM) is a demo project that includes Web API [ASP.NET Core](https://github.com/aspnet/Mvc) 2.x back-end with [EF Core](https://github.com/aspnet/EntityFrameworkCore) 2.x as ORM and SPA web client on [AngularJS](https://github.com/angular/angular.js) and [Bootstrap](https://github.com/twbs/bootstrap). The main goal of this project is just to demonstrate my coding skills to potential employers, but of course, it would be nice if some of the strangers that came here found it useful for their educational or other own purposes.
 
 ## Subject Area
 
@@ -19,17 +19,17 @@ The project has multitier architecture so the solution consists of several sub-p
 
 **FLM.API** : Web API .NET Core project. Provides REST-ful web API to get\manipulate data through HTTP. Also, DI container is set up here and resolves interface contracts with certain services implementations.
 
-**FLM.Auth.IdentityServer** : ASP.NET Core MVC project. UI Based on default ASP.NET MVC project with Individual User Accounts authentication mode. Identity Server 4 integrates here in order to be security token service endpoint. The goal of this project is to be an authentication server and have an ability to manage users and restrict access to some API methods.
+**FLM.Auth.IdentityServer** : ASP.NET Core MVC project. UI Based on default ASP.NET MVC project with Individual User Accounts authentication mode. [Identity Server 4](https://github.com/IdentityServer/IdentityServer4) integrates here in order to be security token service endpoint. The goal of this project is to be an authentication server and have an ability to manage users and restrict access to some API methods.
 
 **FLM.BL** : C# library project. This project represents the business layer of the application. Includes contracts and implementations of services that rules business logic, validates incoming data and pass it down to the Data Access Layer or retrieve data from repositories and return it back to the caller(e.g. API controller).
 
 **FLM.DAL** : C# library project. Describes Data Access Layer contracts and provides interfaces of repositories and other data-related components.
 
-**FLM.DAL.EFCore** : C# library project. Certain implementation of Data Access Layer that uses EF Core as ORM framework. Contains realization of generic EF repository and several inherited repositories related to specific Model parts. Also contains set of mapping configurations that describes how Entities from the Model should be mapped to relational database tables. And finally includes AutoMapper profile that defines how Entities should be converted to DTO(Data Transfer Objects).
+**FLM.DAL.EFCore** : C# library project. Certain implementation of Data Access Layer that uses EF Core as ORM framework. Contains realization of generic EF repository and several inherited repositories related to specific Model parts. Also contains set of mapping configurations that describes how Entities from the Model should be mapped to relational database tables. And finally includes [AutoMapper](https://github.com/AutoMapper/AutoMapper) profile that defines how Entities should be converted to DTO(Data Transfer Objects).
 
 **FLM.DAL.Mocks** : C# library project. Utility project that provides test DB Initializer that seeds the database with plausible test data. Here you can configure amounts of generated leagues, teams, players, automatically generate league schedules, simulate played matches and scores.
 
-**FLM.Client.Angular** : SPA client of the application. Written in AngularJS using Bootstrap. This web client has a responsive grid layout, so all pages should look well both on a desktop and mobile devices.
+**FLM.Client.Angular** : SPA client of the application. Written in [AngularJS](https://github.com/angular/angular.js) using [Bootstrap](https://github.com/twbs/bootstrap). This web client has a responsive grid layout, so all pages should look well both on a desktop and mobile devices.
 
 ## Databases
 
@@ -49,7 +49,7 @@ PM> update-database
 
 ## Authentication
 
-The application uses Identity Server 4 as a security token endpoint using OpenID Connect implicit flow. After you click Login in SPA client you will be redirected to Auth server where you will be able to enter credentials or register a new user.
+The application uses [Identity Server 4](https://github.com/IdentityServer/IdentityServer4) as a security token endpoint using OpenID Connect implicit flow. After you click Login in SPA client you will be redirected to Auth server where you will be able to enter credentials or register a new user.
 
 There are a few pre-registered users that are automatically created during database seeding process. You can use the following credentials to test the application:
 
@@ -67,7 +67,7 @@ First, you need to restore all NuGet packages for the solution.
 
 For **FLM.Client.Angular** you also need to restore npm and bower js packages. File bower.json enumerates all external libraries that final SPA application uses.
 
-Node modules listed in package.json are used by Gulp that automates front-end builds: it compiles LESS to CSS, combines all style files into a single minified css, compiles and minifies all js libraries and app sources, inject application configuration, etc. You can see the detailed configuration of all these tasks in gulpfile.js. To execute full front-end build process use Task Runner Explorer in Visual Studio and run full-build:dev or full-build:release task.
+Node modules listed in package.json are used by [Gulp](https://github.com/gulpjs/gulp) that automates front-end builds: it compiles LESS to CSS, combines all style files into a single minified css, compiles and minifies all js libraries and app sources, inject application configuration, etc. You can see the detailed configuration of all these tasks in gulpfile.js. To execute full front-end build process use Task Runner Explorer in Visual Studio and run full-build:dev or full-build:release task.
 
 By default the project has the following setup:
 
